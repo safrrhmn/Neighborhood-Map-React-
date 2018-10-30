@@ -1,4 +1,7 @@
 
+
+## Application Functionalties:
+
 ## Initial Load:
 > This application loads with a default restaurents near Rockville, MD. Clicking on the Restaurent marker on the map will show the restaurent name and the location. All the general Google Map's functionalties exist as expected
 
@@ -64,4 +67,3 @@ See the section about [deployment](#deployment) for more information.
 
 ### `npm run eject`
 
-## Application Functionalties:
