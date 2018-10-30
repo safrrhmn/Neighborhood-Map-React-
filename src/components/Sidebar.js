@@ -1,31 +1,30 @@
 import React, { Component } from 'react';
 import VenueList from './VenueList'
 import PropTypes from 'prop-types'
-
-
+/**
+ * Resposible for sidebar rendering
+ *
+ * @class Sidebar
+ * @extends {Component}
+ */
 class Sidebar extends Component {
         state = {
-                query: '',
-                venues: []
-        }
-
-
-        sideBarHandler = (e) => {
-                this.setState({
-                        query: e.target.value,
-                        venues: this.props.venues.filter(x => x.venue.name.toLowerCase().includes(e.target.value.toLowerCase()))
-                })
+                query: ''
         }
 
         render() {
 
                 return (
                         <div className="sideBar">
-                                <input type="search" placeholder="Search" id="search" onChange={this.sideBarHandler} />
-                                <VenueList {...this.props} onChangeHandler={this.sideBarHandler} />
+                                <input type="search" placeholder="Search" id="search" onChange={(e) => this.props.onSidebarHandler(e.target.value)} />
+                                <VenueList {...this.props} onSidebarHandler={(e) => this.props.onSidebarHandler(e.target.value)} />
                         </div>
                 );
         }
+}
+
+Sidebar.propTypes = {
+        onSidebarHandler: PropTypes.func
 }
 
 export default Sidebar;

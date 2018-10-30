@@ -1,10 +1,6 @@
 #main {
   display: flex;
   flex-flow: row nowrap;
-  
-}
-.sideBar{  
-  width: 25%;
 }
 
 .App-logo {
@@ -29,13 +25,121 @@
 
 #map{
   height: 100vh;
-  width: 75%;
-  
+  width: 85%;
 }
 #search{
   height: 1rem;
   font-size: 1rem;
 }
 .listItem{
-  list-style: none
+  list-style: none;
+  border-bottom-style: inset;
+  font-family: 'Courier New', Courier, monospace;
+  color: azure;
+}
+.sideBar{  
+  width: 15%;
+  background: black;  
+}
+ol{
+  padding-left:0; list-style-position:inside;
+}
+
+@media all   and (min-width:871px){
+	.container {
+		display: flex;
+		flex-flow: wrap;
+  }
+  ol{
+    padding-left:0; list-style-position:inside;
+  }
+}
+
+/*
+* Responsive 100%
+*/
+@media all  and (max-width:870px) and (min-width:549px){
+	#main {
+		display: flex;
+		flex-flow: wrap;
+		flex-direction: row;
+  }  
+  #map{
+    height: 100vh;
+    width: 75%;
+  }
+  .sideBar{  
+    width: 25%;
+    background: black;  
+  }
+  ol{
+    padding-left:0; list-style-position:inside;
+  }
+}
+
+/**
+* Nexus 5 100%
+*/
+@media all  and (max-width:700px) and (min-width:400px){
+	#main {
+		display: flex;
+		flex-flow: wrap;
+		flex-direction: row;
+  }  
+  #map{
+    height: 100vh;
+    width: 45%;
+  }
+  .sideBar{  
+    width: 55%;
+    background: black;  
+  }
+  ol{
+    padding-left:0; list-style-position:inside;
+  }
+}
+/**
+* Galaxy S5 100%
+*/
+@media all  and (max-width:640px) and (min-width:360px){
+	
+	#main {
+		display: flex;
+		flex-flow: wrap;
+		flex-direction: row;
+  }  
+  #map{
+    height: 100vh;
+    width: 65%;
+  }
+  .sideBar{  
+    width: 35%;
+    background: black;  
+  }
+  ol{
+    padding-left:0; list-style-position:inside;
+  }
+}
+
+/**
+* iPhone 5/SE 100%
+*/
+@media all  and (max-width:568px) and (min-width:320px) {
+	
+	#main {
+		display: flex;
+		flex-flow: wrap;
+		flex-direction: row;
+  }  
+  #map{
+    height: 100vh;
+    width: 60%;
+  }
+  .sideBar{  
+    width: 40%;
+    background: black;  
+  }
+  ol{
+    padding-left:0; list-style-position:inside;
+  }
 }
