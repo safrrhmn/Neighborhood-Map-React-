@@ -15,10 +15,10 @@ class Sidebar extends Component {
         render() {
 
                 return (
-                        <div className="sideBar">
+                        <aside className="sideBar">
                                 <input type="search" placeholder="Search" id="search" onChange={(e) => this.props.onSidebarHandler(e.target.value)} />
                                 <VenueList {...this.props} onSidebarHandler={(e) => this.props.onSidebarHandler(e.target.value)} />
-                        </div>
+                        </aside>
                 );
         }
 }

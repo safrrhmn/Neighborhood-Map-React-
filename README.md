@@ -35,10 +35,15 @@ my-app/
     components/
       Sidebar.js
       VenueList.js
+      ListItems.js
     
 ```
 
 ## Available Scripts
+
+### `npm install`
+
+This will download all the necessary package and dependencies require for the package. If you do not have Node installed locally, please go [here](https://nodejs.org/en/)
 
 In the project directory, you can run:
 

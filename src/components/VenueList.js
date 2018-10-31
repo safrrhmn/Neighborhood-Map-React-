@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import ListItems from './ListItems'
 /**
  * Resposible for generating the List of Restaurent avaiable in the specified location
  *
@@ -7,16 +8,9 @@ import PropTypes from 'prop-types'
  * @extends {Component}
  */
 class VenueList extends Component {
-
         render() {
                 return (< ol className="venueList">
-                        {
-                                this.props.venues && this.props.venues.map((v, key) => (
-                                        <li className="listItem" key={key}>
-                                                {v.venue.name}
-                                        </li>
-                                ))
-                        }
+                        <ListItems {...this.props} />
                 </ol >)
 
         }

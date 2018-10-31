@@ -1,26 +1,49 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import './App.css'
 import Sidebar from './components/Sidebar'
 import PropTypes from 'prop-types'
+import Modal from 'react-modal'
 /**
  * The parent component which handles all the other components of the app
  *
  * @class App
  * @extends {Component}
  */
+
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.sideBarHandler = this.sideBarHandler.bind(this)
+    this.openModal = this.openModal.bind(this)
+    this.afterOpenModal = this.afterOpenModal.bind(this)
+    this.closeModal = this.closeModal.bind(this)
+
   }
 
   originalVenueList = [];
 
   state = {
     markers: [],
-    venues: []
+    venues: [],
+    modalIsOpen: false,
+    modalHeader: '',
+    formattedAddress: [],
+    errorMessage: ''
   }
+
+  customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: 'rgba(255, 255, 255, 0.75)',
+      opacity: 0.75
+    }
+  };
 
   /**
    * 
@@ -41,6 +64,58 @@ class App extends Component {
 
   componentDidMount() {
     this.getVenues();
+  }
+
+  /**
+   *openModal
+   *
+   * @param {*} prp
+   * @param {*} markers
+   * @memberof App
+   */
+  openModal(prp, markers) {
+
+    this.setState({
+      modalIsOpen: true,
+      modalHeader: prp.name,
+      formattedAddress: prp.location.formattedAddress
+    })
+    markers.filter(x => (x.title.toLowerCase().includes(prp.name.toLowerCase()))).forEach(marker => {
+      marker.setAnimation(2)
+    })
+  }
+
+  /**
+   *
+   *afterOpenModal
+   * @memberof App
+   */
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = '#f00';
+  }
+
+  /**
+   *
+   *closeModal
+   * @memberof App
+   */
+  closeModal() {
+    this.setState({ modalIsOpen: false });
+  }
+
+  /**
+   *  Reponsible for opening a sorry modal dialog to the end user when something goes wrong
+   *
+   * @param {*} error
+   * @memberof App
+   */
+  openSorryModal(error) {
+    this.setState({
+      modalIsOpen: true,
+      modalHeader: "Sorry something terrible happened",
+      errorMessage: error.message
+    })
   }
 
   /**
@@ -71,18 +146,20 @@ class App extends Component {
       v: "20182507"
     }
 
-    axios.get(endPoint + new URLSearchParams(parameters)).then(response => {
-      this.setState({
-        venues: response.data.response.groups[0].items
-      }, () => {
-        this.renderMap()
-        this.originalVenueList = this.state.venues;
+    fetch(endPoint + new URLSearchParams(parameters)).then(response => {
+      response.json().then((data) => {
+        this.setState({
+          venues: data.response.groups[0].items
+        }, () => {
+          this.renderMap()
+          this.originalVenueList = this.state.venues;
+        })
+      }).catch(error => {
+        this.openSorryModal(error)
       })
     }).catch(error => {
-      console.log(error)
+      this.openSorryModal(error)
     })
-
-
   }
 
   /**
@@ -107,6 +184,7 @@ class App extends Component {
       marker.addListener('click', function () {
         infowindow.setContent(v.venue.name + "<br>" + v.venue.location.formattedAddress[0])
         infowindow.open(map, marker);
+        marker.setAnimation(4);
       })
       this.state.markers.push(marker)
     })
@@ -115,9 +193,24 @@ class App extends Component {
   render() {
     return (
       <main id="main">
-        <Sidebar {...this.state} onSidebarHandler={this.sideBarHandler} />
+        <Sidebar {...this.state} onSidebarHandler={this.sideBarHandler} onOpenModal={this.openModal} />
         <div id="map"></div>
-      </main>
+        <div>
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal}
+            style={this.customStyles}
+            contentLabel={this.state.modalHeader}
+          >
+            <button onClick={this.closeModal}>close</button>
+            <h1 ref={subtitle => this.subtitle = subtitle}>{this.state.modalHeader}</h1>
+            <div>
+              <p>{this.state.formattedAddress[0]}<br></br>{this.state.formattedAddress[1]}</p>
+            </div>
+          </Modal>
+        </div>
+      </main >
     );
   }
 }
@@ -135,6 +228,9 @@ function loadScript(url) {
   script.async = true;
   script.defer = true;
   index.parentNode.insertBefore(script, index);
+  script.onerror = function (e) {
+    alert("Error loading " + this.src);
+  };
 }
 
 App.proprTypes = {
