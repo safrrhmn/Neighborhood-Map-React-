@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 
 export default class ListItems extends Component {
 
         render() {
                 return (
-                        < ol >
+                        < ol role="list">
                                 {
                                         this.props.venues && this.props.venues.map((v, key) => (
-                                                <li className="listItem" key={key} tabIndex={key} {...this.props} onClick={() => this.props.onOpenModal(v.venue, this.props.markers)}>
+                                                <li role="listitem" className="listItem" key={key} tabIndex={key} {...this.props} onClick={() => this.props.onOpenModal(v.venue, this.props.markers)}>
                                                         {v.venue.name}
                                                 </li>)
                                         )
