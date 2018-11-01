@@ -64,6 +64,9 @@ class App extends Component {
 
   componentDidMount() {
     this.getVenues();
+    window.gm_authFailure = (e) => {
+      this.openSorryModal(new Error())
+    }
   }
 
   /**
@@ -129,6 +132,8 @@ class App extends Component {
     window.initMap = this.initMap;
   }
 
+
+
   /**
    *
    *
@@ -168,6 +173,7 @@ class App extends Component {
    * @memberof App
    */
   initMap = () => {
+
     let map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 39.084179, lng: -77.152901 },
       zoom: 12
@@ -188,7 +194,11 @@ class App extends Component {
       })
       this.state.markers.push(marker)
     })
+
   }
+
+
+
 
   render() {
     return (
@@ -228,9 +238,6 @@ function loadScript(url) {
   script.async = true;
   script.defer = true;
   index.parentNode.insertBefore(script, index);
-  script.onerror = function (e) {
-    alert("Error loading " + this.src);
-  };
 }
 
 App.proprTypes = {
