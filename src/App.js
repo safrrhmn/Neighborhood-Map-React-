@@ -128,8 +128,15 @@ class App extends Component {
    * It renders the map on UI
    */
   renderMap = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyAyFE8IHNy5hmORP910dG-tEuVbT4yOkRo&callback=initMap")
-    window.initMap = this.initMap;
+    const endPoint = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAyFE8IHNy5hmORP910dG-tEuVbT4yOkRo&callback=initMap"
+    fetch(endPoint,{mode: 'no-cors'}).then(response =>{      
+      loadScript(endPoint)
+      window.initMap = this.initMap
+    }).catch(ex=>{
+      console.log(ex)
+      this.openSorryModal(ex.message)
+    })
+    
   }
 
 
